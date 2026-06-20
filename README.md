@@ -4,7 +4,7 @@
 
 
 ```bash
-apt-get install wget -y && wget -O setup.sh https://raw.githubusercontent.com/lisi-123/warp-scr/main/setup.sh && chmod +x setup.sh && ./setup.sh
+apt-get install wget -y && wget -O setup.sh https://raw.githubusercontent.com/lisi-123/warp-socks5/main/setup.sh && chmod +x setup.sh && ./setup.sh
 
 ```
 
