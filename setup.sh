@@ -52,23 +52,13 @@ sudo timedatectl set-timezone Asia/Shanghai
 # 安装warp并设置本地socks5代理
 wget -N https://gitlab.com/fscarmen/warp/-/raw/main/menu.sh && bash menu.sh <<< $'2\n12\n1\n1\n40000\n'
 
-# 修一下wireproxy模式的小bug
-mkdir -p /etc/systemd/system/wireproxy.service.d
+# 添加定时任务（凌晨4:30重启v2node，每5分钟检测warp状态，自动清理vps日志）
+CRON_JOB1='30 4 * * * /usr/bin/v2node restart'
+CRON_JOB2='*/5 * * * * /root/v2bx-scr/socks5-check.sh'
+CRON_JOB3='0 5 * * * /root/v2bx-scr/clean_logs.sh'
 
-cat >/etc/systemd/system/wireproxy.service.d/override.conf <<'EOF'
-[Unit]
-After=network-online.target
-Wants=network-online.target
-
-[Service]
-ExecStart=
-ExecStartPre=/bin/sleep 20
-ExecStart=/usr/bin/wireproxy -c /etc/wireguard/proxy.conf
-RestartSec=10
-EOF
-
-systemctl daemon-reload
-systemctl restart wireproxy
+# 将任务添加到 crontab 并避免重复
+(crontab -l 2>/dev/null; echo "$CRON_JOB1"; echo "$CRON_JOB2"; echo "$CRON_JOB3") | sort -u | crontab -
 
 # 输出完成信息
 echo "已自动配置warp解锁"
