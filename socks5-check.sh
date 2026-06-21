@@ -1,5 +1,4 @@
 #!/bin/bash
-flock -n /tmp/socks5-check.lock || exit 0
 
 check_url() {
     local url=$1
