@@ -11,7 +11,7 @@ apt-get install wget -y && wget -O setup.sh https://raw.githubusercontent.com/li
 <br>
 
 
-执行 warp 可唤起warp管理面板
+执行 warp 可唤起warp管理
 
 <br>
 
